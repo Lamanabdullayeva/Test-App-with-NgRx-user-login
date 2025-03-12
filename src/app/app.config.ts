@@ -1,17 +1,23 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
-import { authReducer } from './auth/auth.reducer';
-import { provideEffects } from '@ngrx/effects';
+import { routes } from './app.routes';
 import { AuthEffects } from './auth/auth.effects';
+import { authReducer } from './auth/auth.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideStore({ auth: authReducer }),
-    provideEffects([AuthEffects]),
+    {
+      provide: AuthEffects,
+      useFactory: () => inject(AuthEffects),
+    },
   ],
 };
