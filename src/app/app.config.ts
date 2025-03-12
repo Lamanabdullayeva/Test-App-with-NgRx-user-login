@@ -9,6 +9,7 @@ import { provideStore } from '@ngrx/store';
 import { routes } from './app.routes';
 import { AuthEffects } from './auth/auth.effects';
 import { authReducer } from './auth/auth.reducer';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +20,6 @@ export const appConfig: ApplicationConfig = {
       provide: AuthEffects,
       useFactory: () => inject(AuthEffects),
     },
+    provideHttpClient(),
   ],
 };
